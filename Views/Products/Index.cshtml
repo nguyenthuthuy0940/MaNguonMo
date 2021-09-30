@@ -1,0 +1,77 @@
+@model netcore.Models.ProductPriceViewModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form class="form-group" asp-controller="Products" asp-action="Index" method="get">
+    <div> 
+        <div class="mb-2">
+            Name: <input class="form-control" type="text" asp-for="SearchString"  required/> 
+            <span asp-validation-for="SearchString" class="text-danger"></span>
+        </div>
+        <div  class="mb-2">  
+            Price: <input  class="form-control" asp-for="ProductPrice" asp-items="Model.Price" required>
+            <span asp-validation-for="ProductPrice" class="text-danger"></span>
+        </div>
+        <div class="mt-2">
+            <input class="btn btn-primary" type="submit" value="Search" />
+        </div>
+    </div>
+</form>
+<table class="table">
+    <thead class="thead-light">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].Time)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Products[0].Price)
+            </th>
+             <th>
+                @Html.DisplayNameFor(model => model.Products[0].Rating)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Products) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Time)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rating)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
